@@ -1,14 +1,15 @@
-import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SettingsIcon from '@mui/icons-material/Settings';
 import html2canvas from 'html2canvas';
 
-const ScheduleActionsBox = ({ scheduleTitle, gridRef, courses, isMySchedule }) => {
+const ScheduleActionsBox = ({ scheduleTitle, titleColor, gridRef, courses, isMySchedule, onSettingsClick }) => {
     
     const getLatestDate = () => {
         if (!courses || courses.length === 0) return "변경 사항 없음";
-        
+        const validDates = courses.filter(c => c.modifiedAt && !isNaN(Date.parse(c.modifiedAt)));
+        if (validDates.length === 0) return "변경 사항 없음";
+
         const latest = courses.reduce((prev, current) => {
             return (prev.modifiedAt > current.modifiedAt) ? prev : current;
         });
@@ -48,10 +49,11 @@ const ScheduleActionsBox = ({ scheduleTitle, gridRef, courses, isMySchedule }) =
             border: '1px solid #eee', 
             borderRadius: '4px', 
             display: 'inline-block',
-            mb: 3,
-            backgroundColor: '#fff'
+            mb: 1,
+            backgroundColor: '#fff',
+            minWidth: '180px'
         }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5, color: '#000' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5, color: titleColor || '#000' }}>
                 {scheduleTitle}
             </Typography>
             <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mb: 2 }}>
@@ -73,6 +75,7 @@ const ScheduleActionsBox = ({ scheduleTitle, gridRef, courses, isMySchedule }) =
                         variant="outlined" 
                         size="small"
                         startIcon={<SettingsIcon sx={{ color: '#f91f15' }} />}
+                        onClick={onSettingsClick}
                         sx={{ color: '#555', borderColor: '#ddd', '&:hover': { borderColor: '#bbb' } }}
                     >
                         설정

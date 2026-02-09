@@ -9,7 +9,8 @@ import PostSideBar from "../components/postSideBar";
 import { PageMargin } from "../styles/pages/pageMargin";
 import { CustomPostPage, PostItemContainer } from "../styles/pages/post.styles";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 const PostPersonalPage = () => {
     const { type } = useParams(); // 'favorite', 'posts', or 'comments'
@@ -58,7 +59,7 @@ const PostPersonalPage = () => {
                                 </div>
                                 <div className="post-meta">
                                     <span className="stat-red"><ThumbUpOffAltIcon style={{fontSize: 14}}/> {post.like_count}</span>
-                                    <span className="stat-blue"><ChatBubbleOutlineIcon style={{fontSize: 14}}/> {post.comment_count}</span>
+                                    <span className="stat-blue"><FontAwesomeIcon icon={faComment} style={{ fontSize: '13px', color: '#7393B3' }} /> {post.comment_count}</span>
                                     <span className="meta-text">{new Date(post.created_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}</span>
                                     <span className="meta-text">{post.author}</span>
                                 </div>

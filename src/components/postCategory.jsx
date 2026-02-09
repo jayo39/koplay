@@ -29,10 +29,10 @@ const PostCategory = ({name, categoryId}) => {
                             color: '#f91f15', 
                             fontWeight: 'bold', 
                             cursor: 'pointer',
-                            transition: 'all 0.2s ease-in-out', // Smooth transition
+                            transition: 'all 0.2s ease-in-out',
                             '&:hover': {
-                                color: '#b3150f', // Darkened red
-                                backgroundColor: 'rgba(0, 0, 0, 0.04)', // Slight grey background
+                                color: '#b3150f', 
+                                backgroundColor: 'rgba(0, 0, 0, 0.04)', 
                             }
                         }} onClick={() => navigate(`/post/${categoryId}`)}>{name}</TableCell>
                     </TableRow>
@@ -45,7 +45,9 @@ const PostCategory = ({name, categoryId}) => {
                                     
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography sx={{ fontSize: '13px', fontWeight: 600, color: '#333' }}>
-                                            {post.title}
+                                            {post.title.length > 20 
+                                                ? `${post.title.slice(0, 20)}...` 
+                                                : post.title}
                                         </Typography>
                                         <Typography variant="caption" sx={{ color: '#888' }}>
                                             {new Date(post.created_at).toLocaleDateString()}

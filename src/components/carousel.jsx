@@ -30,7 +30,7 @@ const Carousel = ({ items = [] }) => {
                         key={index}
                         sx={{
                             minWidth: '100%',
-                            height: '200px',
+                            height: '100px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',

@@ -4,6 +4,57 @@ import { loginRequired } from '../lib/utils.js';
 
 const router = express.Router();
 
+router.get('/newest', async (req, res) => {
+    try {
+        const [posts] = await pool.query(`
+            SELECT 
+                p.id, p.title, p.category_id, p.created_at,
+                CASE WHEN p.isAnonymous = 1 THEN '익명' ELSE u.name END as author,
+                (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
+            FROM posts p
+            JOIN users u ON p.user_id = u.id
+            ORDER BY p.created_at DESC
+            LIMIT 5
+        `);
+        res.json(posts);
+    } catch (err) {
+        res.status(500).json({ msg: "사이드바 데이버 불러오기 실패." });
+    }
+});
+
+router.get('/popular', async (req, res) => {
+    // 디폴트로 3개 보여주기
+    const limit = parseInt(req.query.limit) || 5;
+
+    try {
+        const [posts] = await pool.query(`
+            SELECT 
+                p.id, p.title, p.category_id, p.created_at,
+                CASE WHEN p.isAnonymous = 1 THEN '익명' ELSE u.name END as author,
+                (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count,
+                (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count,
+                (SELECT COUNT(*) FROM saved_posts WHERE post_id = p.id) as save_count,
+                (
+                    ( 
+                      (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) * 1 + 
+                      (SELECT COUNT(*) FROM comments WHERE post_id = p.id) * 2 +
+                      (SELECT COUNT(*) FROM saved_posts WHERE post_id = p.id) * 3
+                    ) 
+                    / POWER(TIMESTAMPDIFF(HOUR, p.created_at, NOW()) + 2, 1.5)
+                ) AS hot_score
+            FROM posts p
+            JOIN users u ON p.user_id = u.id
+            WHERE p.created_at >= NOW() - INTERVAL 7 DAY
+            ORDER BY hot_score DESC
+            LIMIT ?
+        `, [limit]);
+        res.json(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: "인기 게시글 불러오기 실패." });
+    }
+});
+
 router.get('/category/:id', async (req, res) => {
     const { id } = req.params;
     const page = req.query.page;
@@ -57,24 +108,6 @@ router.get('/category/:id', async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ msg: 'Internal Server Error', error: err.message });
-    }
-});
-
-router.get('/newest/sidebar', async (req, res) => {
-    try {
-        const [posts] = await pool.query(`
-            SELECT 
-                p.id, p.title, p.category_id, p.created_at,
-                CASE WHEN p.isAnonymous = 1 THEN '익명' ELSE u.name END as author,
-                (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
-            FROM posts p
-            JOIN users u ON p.user_id = u.id
-            ORDER BY p.created_at DESC
-            LIMIT 3
-        `);
-        res.json(posts);
-    } catch (err) {
-        res.status(500).json({ msg: "사이드바 데이버 불러오기 실패." });
     }
 });
 

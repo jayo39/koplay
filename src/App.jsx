@@ -21,7 +21,9 @@ function App() {
                   <LatestUpdate />
                   <MainBanner />
                   <RankingTable />
-                  <Content />
+                  <div id="service-intro">
+                    <Content />
+                  </div>
                 </>
               )}
         <Footer></Footer>

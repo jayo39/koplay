@@ -8,10 +8,10 @@ const MainBanner = () => {
                 <span className="desktop-br"><br /></span>
                 <span className="mobile-br" />
                 커뮤니티 플랫폼, <span className="mobile-br" />
-                <span style={{ color: '#c32126' }}>코바이브</span>
+                <span style={{ color: '#e7110d' }}>코바이브</span>
             </h1>
             
-            <p style={{ color: '#848a92', fontWeight: '500', fontSize: '16px' }}>
+            <p style={{ color: '#848a92', fontWeight: 'bold', fontSize: '1.25rem', marginTop: '-20px' }}>
                 대학생활의 다양한 정보와 이야기를 <span className="mobile-br" /> 
                 다른 학생들과 자유롭게 나눠보세요.
                 <br className="desktop-br" />

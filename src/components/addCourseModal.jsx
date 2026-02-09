@@ -28,7 +28,7 @@ const PREDEFINED_COLORS = [
     '#e0e0e0'  // Grey-ish
 ];
 
-const AddCourseModal = ({ open, onClose, initialData, onSave, userId, isEditMode }) => {
+const AddCourseModal = ({ open, onClose, initialData, onSave, scheduleId, isEditMode }) => {
 
     const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
     const MINUTES = [0, 10, 20, 30, 40, 50];
@@ -51,22 +51,22 @@ const AddCourseModal = ({ open, onClose, initialData, onSave, userId, isEditMode
         }
 
         const payload = {
-            userId,
+            schedule_id: scheduleId,
             name: values.name,
             location: values.location,
             day: values.day,
             start_time: startDecimal,
             end_time: endDecimal,
-            color: values.color
+            color: values.color,
         };
 
         try {
             if (isEditMode) {
                 await axios.put(`/api/schedule/${initialData.id}`, payload);
-                onSave({ ...payload, id: initialData.id });
+                onSave({ ...payload, id: initialData.id, modifiedAt: new Date().toISOString() });
             } else {
                 const res = await axios.post('/api/schedule/add', payload);
-                onSave({ ...payload, id: res.data.id });
+                onSave({ ...payload, id: res.data.id, modifiedAt: new Date().toISOString() });
             }
             resetForm();
             onClose();
@@ -79,7 +79,6 @@ const AddCourseModal = ({ open, onClose, initialData, onSave, userId, isEditMode
     return (
         <Formik
             initialValues={{
-                userId: userId,
                 name: initialData?.name || '',
                 location: initialData?.location || '',
                 day: initialData?.day ?? 0,
@@ -177,6 +176,7 @@ const AddCourseModal = ({ open, onClose, initialData, onSave, userId, isEditMode
                                 fullWidth
                                 sx={{ bgcolor: '#f91f15', mt: 1, '&:hover': { bgcolor: '#d31911' }, fontWeight: 'bold' }} 
                                 onClick={handleSubmit}
+                                disableElevation
                             >
                                 저장
                             </Button>

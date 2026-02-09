@@ -4,7 +4,8 @@ const FooterLinks = () => {
     const menus = [
         {id: 1, title: '공지사항'},
         {id: 2, title: '문의하기'},
-        {id: 3, title: '개인정보처리방침'},
+        {id: 3, title: '이용규칙'},
+        {id: 4, title: '개인정보처리방침'}
     ];
 
     return (

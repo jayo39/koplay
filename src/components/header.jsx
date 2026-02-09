@@ -36,12 +36,21 @@ const Header = () => {
         { id: 2, title: '게시판', path: '/post/1', adminOnly: false, authRequired: true},
         { id: 3, title: '시간표', path: '/schedule', adminOnly: false, authRequired: true},
         { id: 4, title: '학점계산기', path: '/gpa', adminOnly: false, authRequired: true},
-        { id: 5, title: '친구', path: '/friend', adminOnly: false, authRequired: true}
+        { id: 5, title: '친구', path: '/friend', adminOnly: false, authRequired: true},
+        { id: 6, title: '서비스 소개', path: '/', adminOnly: false, authRequired: false, unauthOnly: true},
+        { id: 7, title: '개인정보 보호', path: '/privacy', adminOnly: false, authRequired: false, unauthOnly: true}
     ];
 
     const menus = allMenus.filter(menu => {
-        if (menu.adminOnly) return user?.role === 'ADMIN';
-        if (menu.authRequired) return isLoggedIn;
+        // 관리자 전용
+        if (menu.adminOnly && user?.role !== 'ADMIN') return false;
+
+        // 로그인 전용
+        if (menu.authRequired && !isLoggedIn) return false;
+
+        // 게스트 전용
+        if (menu.unauthOnly && isLoggedIn) return false;
+
         return true;
     });
 

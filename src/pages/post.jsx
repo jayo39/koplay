@@ -14,8 +14,8 @@ import Header from "../components/header";
 import axios from '../api/axios';
 import CategoryTitle from "../components/categoryTitle";
 import Footer from '../components/footer.jsx'
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { UserContext } from "../provider/userProvider";
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 const PostPage = () => {
     const { categoryId } = useParams();
@@ -106,15 +106,18 @@ const PostPage = () => {
                                             <TableCell align="center">
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
                                                     <ThumbUpOffAltIcon sx={{ fontSize: '18px', color: '#f91f15' }} />
-                                                    <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                                                    <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#f91f15' }}>
                                                         {post.like_count || 0}
                                                     </Typography>
                                                 </Box>
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
-                                                    <ChatBubbleOutlineIcon sx={{ fontSize: '18px', color: '#0589f5' }} />
-                                                    <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                                                    <FontAwesomeIcon 
+                                                        icon={faComment} 
+                                                        style={{ fontSize: '15px', color: '#7393B3' }} 
+                                                    />
+                                                    <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#7393B3' }}>
                                                         {post.comment_count || 0}
                                                     </Typography>
                                                 </Box>

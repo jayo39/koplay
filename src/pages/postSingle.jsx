@@ -10,7 +10,6 @@ import {PostDetailContainer, CommentSection} from "../styles/components/postDeta
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import SendIcon from '@mui/icons-material/Send';
 import { UserContext } from "../provider/userProvider";
@@ -22,6 +21,8 @@ import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRig
 import { CommentItem, CommentListContainer } from '../styles/components/comment.styles';
 import Footer from '../components/footer.jsx'
 import StarIcon from '@mui/icons-material/Star'; // Add this import at the top
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 const PostSinglePage = () => {
     const { categoryId, postId } = useParams();
@@ -246,7 +247,7 @@ const PostSinglePage = () => {
 
                                 <div className="post-stats">
                                     <div className="stat-item red"><ThumbUpOffAltIcon /> {post?.like_count}</div>
-                                    <div className="stat-item blue"><ChatBubbleOutlineIcon /> {post?.comments?.length || 0}</div>
+                                    <div className="stat-item blue"><FontAwesomeIcon icon={faComment} style={{ fontSize: '13px', color: '#7393B3' }} /> {post?.comments?.length || 0}</div>
                                     <div className="stat-item yellow"><StarBorderIcon/>{post?.scrap_count || 0}</div>
                                 </div>
                                 <div className="button-group">

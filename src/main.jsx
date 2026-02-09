@@ -17,6 +17,7 @@ import { withLogin, withLoginAndAdmin } from './hoc/hoc.jsx';
 import GPAPage from './pages/gpa.jsx';
 import PostPersonalPage from './pages/postPersonal.jsx';
 import InvalidPage from './pages/invalid.jsx';
+import PrivacyPage from './pages/privacy.jsx';
 
 const ProtectedSchedule = withLogin(SchedulePage);
 const ProtectedFriend = withLogin(FriendPage);
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <LoginPage/>},
   {path: "/register", element: <RegisterPage/>},
+  {path: "/privacy", element: <PrivacyPage/>},
   {path: "/schedule/:userId?", element: <ProtectedSchedule/>},
   {path: "/friend", element: <ProtectedFriend/>},
   {path: "/profile", element: <ProtectedProfile/>},

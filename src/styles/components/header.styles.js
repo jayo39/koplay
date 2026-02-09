@@ -32,6 +32,7 @@ export const CustomHeader = styled.header`
         display: flex;
         align-items: center;
         column-gap: 10px;
+        margin-left: 10px;
     }
 
     .right-section {
